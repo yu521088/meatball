@@ -3,6 +3,16 @@
   <div class="jumbotron brief">
     <h1>Welcome to MeatBall!</h1>
     <p>MeatBall is a wonderful place for you to build your reputation on the internet. Do you want to be an opinion leader? Do you have any good idea to share with you fans? Come here, this is the right stage for you!</p>
+  <% if(success){ %>
+  <div class='alert alert-success'>
+    <%= success %>
+  </div>
+  <% } %>
+  <% if(error){ %>
+  <div class='alert alert-danger'>
+    <%= error %>
+  </div>
+  <% } %>
     <div class='row'>
       <form class='form-horizontal col-sm-4' method='post'>
         <div class='form-group'>

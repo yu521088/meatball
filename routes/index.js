@@ -8,15 +8,19 @@ module.exports = function(app){
 	app.get('/', function(req, res){
 	  res.render('index');
 	});
+	app.get('/u/:user',checkLogin);
 	app.get('/u/:user', function(req, res){
 		res.render('home');
 	});
+	app.post('/post',checkLogin);
 	app.post('/post', function(req, res){
 		
 	});
+	app.get('/reg',checkNotLogin);
 	app.get('/reg', function(req, res){
 		res.render("register");
 	});
+	app.post('/reg',checkNotLogin);
 	app.post('/reg', function(req, res){
 		var params = req.body;
 		if(params.name && params.pass && params['pass-repeat']){
@@ -52,9 +56,11 @@ module.exports = function(app){
 			res.redirect('/reg');
 		}
 	});
+	app.get('/login',checkNotLogin);
 	app.get('/login', function(req, res){
 		res.render('login');
 	});
+	app.post('/login',checkNotLogin);
 	app.post('/login', function(req, res){
 		var params = req.body;
 		if(params.name && params.pass ){
@@ -81,10 +87,25 @@ module.exports = function(app){
 			res.redirect('/login');
 		}
 	});
+	app.get('/logout',checkLogin);
 	app.get('/logout', function(req, res){
 		req.session.user = null;
 		req.flash('success', 'Logout success');
 		res.redirect('/');
 	});
+	function checkLogin(req, res, next){
+		if(!req.session.user){
+			req.flash('error','Please login first!');
+			return res.redirect('/login');
+		}
+		next();
+	}
+	function checkNotLogin(req, res, next){
+		if(req.session.user){
+			req.flash('error','You have already login!');
+			return req.redirect('/');
+		}
+		next();
+	}
 	return app.router;
 };
