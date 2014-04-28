@@ -1,2 +1,29 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
 <h1 style='color: #fff;'>Hello, <%=user.name %></h1>
+<% if(success){ %>
+<div class='alert alert-success'>
+<%= success %>
+</div>
+<% } %>
+<% if(error){ %>
+<div class='alert alert-danger'>
+<%= error %>
+</div>
+<% } %>
+<form action="/post" method="post">
+	<label>Say something:</label>
+	<textarea name="content"></textarea>
+	<button class="btn btn-primary">Tweet it</button>
+</form>
+<% if(tweets){
+	for(var i = 0; i<tweets.length; i++){
+		%>
+			<article>
+				<p class="poster"><%=tweets[i].user%> posted at: <span class="time"><%=tweets[i].time%></span><p>
+				<div class="tweet">
+					<%=tweets[i].post%>
+				</div>
+			</article>
+		<%
+	}
+}%>

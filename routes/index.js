@@ -1,8 +1,5 @@
-
-/*
- * GET home page.
- */
 var User = require('../models/user');
+var Tweet = require('../models/tweet');
 var crypto = require('crypto');
 module.exports = function(app){
 	app.get('/', function(req, res){
@@ -10,11 +7,27 @@ module.exports = function(app){
 	});
 	app.get('/u/:user',checkLogin);
 	app.get('/u/:user', function(req, res){
-		res.render('home');
+		console.log('User--> '+req.session.user.name);
+		Tweet.get(req.session.user.name, function(err, tweets){
+			if(err){
+				req.flash('error',err);
+				res.redirect('/');
+			}
+			console.log('Tweets.length ==> ' + tweets.length);
+			res.render('home',{user:req.session.user,tweets:tweets});
+		});
 	});
 	app.post('/post',checkLogin);
 	app.post('/post', function(req, res){
-		
+		var tweet = new Tweet(req.session.user.name, req.params.content, new Date());
+		tweet.save(function(err, tweet){
+			if(err){
+				req.flash('error', err);
+				res.redirect('/');
+			}
+			req.flash('success','post tweet success!');
+			res.redirect('/u/'+req.session.user.name);
+		});
 	});
 	app.get('/reg',checkNotLogin);
 	app.get('/reg', function(req, res){
