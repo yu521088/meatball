@@ -3,7 +3,7 @@ var Tweet = require('../models/tweet');
 var crypto = require('crypto');
 module.exports = function(app){
 	app.get('/', function(req, res){
-	  res.render('index');
+		res.render('index');
 	});
 	app.get('/u/:user',checkLogin);
 	app.get('/u/:user', function(req, res){
@@ -35,7 +35,7 @@ module.exports = function(app){
 	app.post('/reg', function(req, res){
 		var params = req.body;
 		if(params.name && params.pass && params['pass-repeat']){
-			if (req.body['pass-repeat'] != req.body['pass']) {
+			if (req.body['pass-repeat'] != req.body.pass) {
 				req.flash('error', 'make sure you input the same passwords.');
 				return res.redirect('/reg');
 			}
@@ -43,7 +43,7 @@ module.exports = function(app){
 			var password = md5.update(req.body.pass).digest('base64');
 			var newUser = new User({
 				name: req.body.name,
-				password: password,
+				password: password
 			});
 			User.get(newUser.name, function(err, user) {
 				if (user)

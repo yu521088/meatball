@@ -14,7 +14,7 @@
 	<form action="/post" method="post">
 		<label>Say something:</label>
 		<textarea id="content" name="content"></textarea>
-		<button class="btn btn-primary">Tweet it</button>
+		<button id="postTweet" class="btn btn-primary">Tweet it</button>
 	</form>
 	<% if(tweets){
 		%>
@@ -24,7 +24,7 @@
 			%>
 				<article>
 					<p>
-						<span class="poster"><%=tweets[i].user%></span> posted at: 
+						<a href="/u/<%=user.name%>" class="poster"><%=tweets[i].user%></a> posted at: 
 						<span class="time"><%=tweets[i].time %></span>
 					<p>
 					<div class="tweet">
@@ -38,3 +38,4 @@
 		<%
 	}%>
 </div>
+<script type="text/javascript" src="/public/javascipts/home.js"></script>
