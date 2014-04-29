@@ -21,3 +21,38 @@ body{
 	float: left;
 	padding-top: 5px;
 }
+#content{
+	resize: none;
+	width: 300px;
+	height: 80px;
+	display: block;
+}
+#tweets {
+	margin: 20px 0;
+}
+#tweets article {
+	border: 1px solid #F00;
+	box-shadow: 3px 3px 5px #000;
+	background: #F00;
+	color: #fff;
+	margin: 20px 0;
+	padding: 10px;
+}
+.poster {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #FF0;
+}
+.tweet {
+	font-style: italic;
+}
+.tweet:before {
+	content: "\"";
+	font-family: cursive;
+	font-size: 20px;
+}
+.tweet:after {
+	content: "\"";
+	font-family: cursive;
+	font-size: 20px;
+}

@@ -31,7 +31,6 @@ app.use(express.session({
 app.use(flash());
 
 app.use(function(req, res, next){
-  console.log("app.usr local");
   res.locals.user = req.session.user;
   //res.locals.post = req.session.post;
   var error = req.flash('error');

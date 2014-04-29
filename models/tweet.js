@@ -1,11 +1,11 @@
 var mongodb = require('./db');
 function Tweet(content, user, time){
-	this.post = content;
+	this.content = content;
 	this.user = user;
 	if(time){
 		this.time = time;
 	}else{
-		this.time = new Date();
+		this.time = new Date().getTime();
 	}
 }
 
@@ -13,8 +13,8 @@ module.exports = Tweet;
 
 Tweet.prototype.save = function(callback){
 	var tweet = {
-		user: this.user,
 		content: this.content,
+		user: this.user,
 		time: this.time
 	}
 	mongodb.open(function(err, db){
@@ -26,10 +26,10 @@ Tweet.prototype.save = function(callback){
 				mongodb.close();
 				return callback(err);
 			}
-			collection.ensureIndex('user', function(err){});
+			collection.ensureIndex('time', function(){console.log('error in ensureIndex');});
 			collection.insert(tweet, {safe: true},function(err, tweet){
 				mongodb.close();
-				return callback(null, tweet);
+				return callback(err, tweet);
 			});
 		});
 	});
@@ -53,7 +53,7 @@ Tweet.get = function(username, callback){
 				mongodb.close();
 				var tweets = [];
 				docs.forEach(function(doc, index){
-					var tweet = new Tweet(doc.post, doc.user, doc.time);
+					var tweet = new Tweet(doc.content, doc.user, new Date(doc.time).toLocaleDateString());
 					tweets.push(tweet);
 				});
 				callback(null, tweets);

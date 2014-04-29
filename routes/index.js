@@ -7,19 +7,17 @@ module.exports = function(app){
 	});
 	app.get('/u/:user',checkLogin);
 	app.get('/u/:user', function(req, res){
-		console.log('User--> '+req.session.user.name);
 		Tweet.get(req.session.user.name, function(err, tweets){
 			if(err){
 				req.flash('error',err);
 				res.redirect('/');
 			}
-			console.log('Tweets.length ==> ' + tweets.length);
 			res.render('home',{user:req.session.user,tweets:tweets});
 		});
 	});
 	app.post('/post',checkLogin);
 	app.post('/post', function(req, res){
-		var tweet = new Tweet(req.session.user.name, req.params.content, new Date());
+		var tweet = new Tweet( req.body.content, req.session.user.name);
 		tweet.save(function(err, tweet){
 			if(err){
 				req.flash('error', err);
